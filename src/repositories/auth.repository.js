@@ -12,3 +12,10 @@ VALUES ($1, $2, $3, $4, $5)
     [name, cpf, phone, email, password]
   );
 }
+
+export function createSession(userId, token) {
+  return db.query(`INSERT INTO sessions ("userId", token) VALUES ($1, $2);`, [
+    userId,
+    token,
+  ]);
+}
