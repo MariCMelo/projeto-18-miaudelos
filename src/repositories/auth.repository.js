@@ -1,8 +1,12 @@
 import { db } from "../database/database.connection.js";
 
-export function getUser(email) {
+export function getUserEmail(email) {
   return db.query(`SELECT * FROM users WHERE email=$1;`, [email]);
 }
+export function getUserCpf(cpf) {
+  return db.query(`SELECT * FROM users WHERE cpf=$1;`, [cpf]);
+}
+
 
 export function createUserDB(name, cpf, phone, email, password) {
   return db.query(

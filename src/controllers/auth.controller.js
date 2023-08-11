@@ -1,15 +1,27 @@
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
-import { createSession, createUserDB, getUser } from "../repositories/auth.repository.js";
+import {
+  createSession,
+  createUserDB,
+  getUserCpf,
+  getUserEmail,
+} from "../repositories/auth.repository.js";
 
 export async function signup(req, res) {
   const { name, cpf, phone, email, password } = req.body;
 
   try {
-    const user = await getUser(email);
-    console.log("aqui");
-    if (user.rowCount !== 0)
-      return res.status(409).send({ message: "E-mail já foi cadastrado!" });
+    const userEmail = await getUserEmail(email);
+   
+    const userCpf = await getUserCpf(cpf); 
+    console.log("teste")
+    console.log(userEmail.rowCount);
+    if (userEmail.rowCount !== 0) {  
+      console.log("erro de email")
+      return res.status(409).send({ message: "E-mail já foi cadastrado!" }) };
+    if (userCpf.rowCount !== 0) {
+      console.log("erro de cpf")
+      return res.status(409).send({ message: "CPF já foi cadastrado!" }) };
 
     const hash = bcrypt.hashSync(password, 10);
     await createUserDB(name, cpf, phone, email, hash);
@@ -23,8 +35,9 @@ export async function signup(req, res) {
 }
 
 export async function signin(req, res) {
-  const { email, password} = req.body;
+  const { email, password } = req.body;
   try {
+    console.log("teste");
     const user = await getUser(email);
     if (user.rowCount === 0)
       return res.status(401).send({ message: "E-mail não cadastrado!" });
