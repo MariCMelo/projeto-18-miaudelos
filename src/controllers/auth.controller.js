@@ -37,8 +37,7 @@ export async function signup(req, res) {
 export async function signin(req, res) {
   const { email, password } = req.body;
   try {
-    console.log("teste");
-    const user = await getUser(email);
+    const user = await getUserEmail(email);
     if (user.rowCount === 0)
       return res.status(401).send({ message: "E-mail não cadastrado!" });
 
