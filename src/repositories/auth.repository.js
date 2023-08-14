@@ -13,6 +13,8 @@ export function getUserId(id) {
 }
 
 export function findSessionDB(token) {
+  console.log("aqui",`SELECT "userId" FROM sessions WHERE token= ${token}`)
+  
   return db.query(`SELECT "userId" FROM sessions WHERE token=$1;`, [token]);
 }
 

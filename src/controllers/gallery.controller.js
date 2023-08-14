@@ -45,6 +45,7 @@ export async function openProfile(req, res) {
 
   try {
     const cat = await getCatById(id);
+    // console.log(cat)
     if (cat.rowCount !== 0) {
       const owner = await getUserId(cat.rows[0].userId);
 
@@ -56,6 +57,7 @@ export async function openProfile(req, res) {
             age: cat.rows[0].age,
             breed: cat.rows[0].breed,
             color: cat.rows[0].color,
+            photo: cat.rows[0].photo,
           },
           owner: {
             name: owner.rows[0].name,
